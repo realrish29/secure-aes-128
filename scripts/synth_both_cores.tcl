@@ -1,5 +1,5 @@
 # scripts/synth_both_cores.tcl
-set report_dir [file normalize "./docs/vivado_reports"]
+set report_dir [file normalize "./reports/synthesis"]
 file mkdir $report_dir
 set part "xc7a35tcsg324-1"
 

@@ -1,25 +1,30 @@
-# Vivado logs and journal files
+# ---- Vivado logs, journals, runtime scratch ----
 *.log
 *.jou
+*.str
 *.backup.jou
 *.backup.log
-*.str
 clockInfo.txt
 dfx_runtime.txt
-test.pdf
-extracted_p1_0.jpeg
-
-# Vivado generated run data and caches
 .Xil/
-*.cache/
-*.hw/
-*.ip_user_files/
-vivado_project/.Xil/
+
+# ---- Vivado generated project data (re-create with scripts/build_vivado_project.tcl) ----
 vivado_project/*.cache/
 vivado_project/*.hw/
 vivado_project/*.ip_user_files/
 vivado_project/*.sim/
+vivado_project/*.runs/
 
-# Python cache
+# ---- Python ----
 __pycache__/
 *.pyc
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# ---- Scratch ----
+test.pdf
+extracted_*.jpeg

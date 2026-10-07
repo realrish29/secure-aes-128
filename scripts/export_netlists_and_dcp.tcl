@@ -1,5 +1,5 @@
 # scripts/export_netlists_and_dcp.tcl
-set report_dir [file normalize "./docs/vivado_reports"]
+set report_dir [file normalize "./reports/synthesis"]
 set proj_dir [file normalize "./vivado_project"]
 set part "xc7a35tcsg324-1"
 

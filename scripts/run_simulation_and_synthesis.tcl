@@ -1,6 +1,6 @@
 # scripts/run_simulation_and_synthesis.tcl
 set project_path [file normalize "./vivado_project/AES128_SCA_Resistance.xpr"]
-set report_dir [file normalize "./docs/vivado_reports"]
+set report_dir [file normalize "./reports/synthesis"]
 file mkdir $report_dir
 
 puts "==> Opening Project: $project_path"

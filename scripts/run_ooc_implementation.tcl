@@ -4,7 +4,7 @@
 # This prevents Vivado from trying to wire all 517 parallel IP core bus bits
 # to external package pins, allowing complete routing and timing closure.
 
-set report_dir [file normalize "./docs/vivado_reports"]
+set report_dir [file normalize "./reports/synthesis"]
 set part "xc7a35tcsg324-1"
 
 puts "==> [1/3] Reading RTL Sources and Timing Constraints..."
