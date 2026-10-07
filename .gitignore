@@ -1,0 +1,25 @@
+# Vivado logs and journal files
+*.log
+*.jou
+*.backup.jou
+*.backup.log
+*.str
+clockInfo.txt
+dfx_runtime.txt
+test.pdf
+extracted_p1_0.jpeg
+
+# Vivado generated run data and caches
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+vivado_project/.Xil/
+vivado_project/*.cache/
+vivado_project/*.hw/
+vivado_project/*.ip_user_files/
+vivado_project/*.sim/
+
+# Python cache
+__pycache__/
+*.pyc

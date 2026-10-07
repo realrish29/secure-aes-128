@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Project Progress Report - Secure AES-128 Implementation with Side-Channel Attack Resistance</title>
+<style>
+  @page {
+    size: letter portrait;
+    margin: 54pt 57pt 54pt 57pt;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 11pt;
+    line-height: 1.35;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+  }
+
+  .page {
+    page-break-after: always;
+    break-after: page;
+    height: 684pt;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-last {
+    page-break-after: avoid;
+    break-after: avoid;
+    min-height: 684pt;
+    position: relative;
+  }
+
+  /* Page 1: Cover Page */
+  .title-page {
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+  }
+
+  .title-main {
+    font-size: 16pt;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-bottom: 14pt;
+    text-transform: uppercase;
+  }
+
+  .title-on {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 14pt;
+    text-transform: uppercase;
+  }
+
+  .title-sub {
+    font-size: 16pt;
+    font-weight: bold;
+    line-height: 1.35;
+    text-transform: uppercase;
+    margin-bottom: 28pt;
+  }
+
+  .title-meta {
+    font-size: 11pt;
+    margin-bottom: 4pt;
+  }
+
+  .title-degree {
+    font-size: 13pt;
+    font-weight: bold;
+    margin-top: 3pt;
+    margin-bottom: 3pt;
+  }
+
+  .title-branch {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 2pt;
+  }
+
+  .title-spec {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 22pt;
+  }
+
+  .title-by {
+    font-size: 11pt;
+    margin-bottom: 4pt;
+  }
+
+  .title-students {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 22pt;
+  }
+
+  .title-guide-label {
+    font-size: 11pt;
+    margin-bottom: 4pt;
+  }
+
+  .title-guide-name {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 2pt;
+  }
+
+  .title-guide-desig {
+    font-size: 11pt;
+    margin-bottom: 18pt;
+  }
+
+  .title-logo {
+    margin-top: 8pt;
+    margin-bottom: 18pt;
+  }
+
+  .title-logo img {
+    width: 105px;
+    height: auto;
+  }
+
+  .title-dept {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 3pt;
+  }
+
+  .title-inst {
+    font-size: 11pt;
+    margin-bottom: 3pt;
+  }
+
+  .title-affil {
+    font-size: 10.5pt;
+    margin-bottom: 12pt;
+  }
+
+  .title-year {
+    font-size: 11pt;
+    font-weight: bold;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+    color: #000000;
+  }
+
+  h2 {
+    font-size: 13pt;
+    font-weight: bold;
+    margin-top: 8pt;
+    margin-bottom: 3pt;
+    color: #000000;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 6pt;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 6pt;
+    padding-left: 20pt;
+  }
+
+  li {
+    margin-bottom: 3pt;
+  }
+
+  /* Literature Review Table */
+  .lit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4pt;
+    margin-bottom: 6pt;
+    font-size: 8.5pt;
+    line-height: 1.15;
+  }
+
+  .lit-table th, .lit-table td {
+    border: 1px solid #000000;
+    padding: 2.5pt 3.5pt;
+    vertical-align: top;
+  }
+
+  .lit-table th {
+    font-weight: bold;
+    background-color: #ffffff;
+    text-align: left;
+  }
+
+  /* Results Table */
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4pt;
+    margin-bottom: 6pt;
+    font-size: 8.5pt;
+    line-height: 1.2;
+  }
+
+  .results-table th, .results-table td {
+    border: 1px solid #000000;
+    padding: 3pt 4.5pt;
+    vertical-align: middle;
+  }
+
+  .results-table th {
+    font-weight: bold;
+    background-color: #f7f7f7;
+    text-align: left;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .ref-item {
+    text-indent: -20pt;
+    padding-left: 20pt;
+    margin-bottom: 6pt;
+    font-size: 9.5pt;
+    line-height: 1.3;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 ================= -->
+<div class="page">
+  <div class="title-page">
+    <div>
+      <div class="title-main">A PROJECT PROGRESS REPORT</div>
+      <div class="title-on">ON</div>
+      <div class="title-sub">SECURE AES-128 IMPLEMENTATION WITH SIDE-CHANNEL<br>ATTACK RESISTANCE</div>
+    </div>
+
+    <div>
+      <div class="title-meta">submitted in partial fulfilment of the requirements for the degree</div>
+      <div class="title-degree">Bachelor of Technology</div>
+      <div class="title-meta">in</div>
+      <div class="title-branch">Electronics Engineering</div>
+      <div class="title-spec">(VLSI Design and Technology)</div>
+    </div>
+
+    <div>
+      <div class="title-by">by</div>
+      <div class="title-students">
+        Ish Bhati (2300971730019)<br>
+        Ishita Chaudhary (2300971730020)<br>
+        Rishabh Verma (2300971730029)
+      </div>
+    </div>
+
+    <div>
+      <div class="title-guide-label">Under the Guidance of</div>
+      <div class="title-guide-name">Dr. Parveen Kumar</div>
+      <div class="title-guide-desig">Assistant Professor</div>
+    </div>
+
+    <div class="title-logo">
+      <img src="data:image/jpeg;base64,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" alt="Galgotias College Logo">
+    </div>
+
+    <div>
+      <div class="title-dept">Department of VLSI and Communication Technology</div>
+      <div class="title-inst">Galgotias College of Engineering and Technology, Greater Noida.</div>
+      <div class="title-affil">(Affiliated to Dr. A.P.J. Abdul Kalam Technical University, Lucknow)</div>
+      <div class="title-year">2026-27</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 ================= -->
+<div class="page">
+  <h1 style="margin-top: 0;">1. Introduction</h1>
+  <p>
+  Advanced Encryption Standard (AES) is a widely used symmetric-key block cipher for protecting digital 
+  information. AES-128 operates on 128-bit data blocks using a 128-bit secret key and performs ten encryption 
+  rounds. The principal transformations are SubBytes, ShiftRows, MixColumns and AddRoundKey, with 
+  MixColumns omitted in the final round.
+  </p>
+  <p>
+  Although the AES algorithm provides strong mathematical security, its hardware implementation can reveal 
+  information through physical side channels. CMOS switching activity can produce data-dependent power 
+  consumption, which may be observed by an attacker through power measurements. Statistical attacks such as 
+  Differential Power Analysis (DPA) and Correlation Power Analysis (CPA) can exploit such leakage to obtain 
+  information related to secret-dependent intermediate values.
+  </p>
+  <p>
+  The proposed project therefore focuses on implementing AES-128 with first-order Boolean masking as a 
+  countermeasure against power-based side-channel leakage. The work also considers the difficulty of protecting 
+  the nonlinear AES S-box, mask generation and refresh, and the trade-off between leakage resistance and 
+  hardware overhead.
+  </p>
+
+  <h1>2. Literature Review</h1>
+  <table class="lit-table">
+    <thead>
+      <tr>
+        <th style="width: 5%;">S. No</th>
+        <th style="width: 17%;">Authors and Year</th>
+        <th style="width: 17%;">Journal / Venue</th>
+        <th style="width: 20%;">Paper Title</th>
+        <th style="width: 21%;">Major Findings</th>
+        <th style="width: 20%;">Limitations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="center">1. [Base Paper]</td>
+        <td>R. Kumar, V. B. Suresh, S. Taneja, et al. (2023)</td>
+        <td>IEEE Journal of Solid-State Circuits</td>
+        <td>A 7-Gbps SCA-Resistant Multiplicative-Masked AES Engine in Intel 4 CMOS</td>
+        <td>Multiplicative-masked AES with dual-rail zero-value detection; reported large improvements in measured minimum-time-to-disclosure against power and EM attacks.</td>
+        <td>Intel 4 custom silicon and specialized dual-rail implementation are not directly representative of an academic FPGA RTL flow.</td>
+      </tr>
+      <tr>
+        <td class="center">2.</td>
+        <td>P. Kocher, J. Jaffe, B. Jun (1999)</td>
+        <td>CRYPTO ’99</td>
+        <td>Differential Power Analysis</td>
+        <td>Established DPA and demonstrated that physical power behavior can reveal information about cryptographic computations.</td>
+        <td>Primarily established the attack; it does not provide the complete FPGA-oriented masked architecture used in our proposed work.</td>
+      </tr>
+      <tr>
+        <td class="center">3.</td>
+        <td>S. Chari, C. S. Jutla, J. R. Rao, P. Rohatgi (1999)</td>
+        <td>CRYPTO ’99</td>
+        <td>Towards Sound Approaches to Counteract Power-Analysis Attacks</td>
+        <td>Provided the mathematical foundation for secret sharing and masking as a countermeasure to power analysis.</td>
+        <td>The work is theoretical and does not address all practical CMOS hazards such as glitches and routing imbalance.</td>
+      </tr>
+      <tr>
+        <td class="center">4.</td>
+        <td>D. Canright, L. Batina (2008)</td>
+        <td>ACNS</td>
+        <td>A Very Compact Perfectly Masked S-Box for AES</td>
+        <td>Presented a compact composite-field masked S-box architecture and addressed efficient masking of the nonlinear AES operation.</td>
+        <td>Practical implementations can still face dynamic-glitch and implementation-dependent leakage concerns.</td>
+      </tr>
+      <tr>
+        <td class="center">5.</td>
+        <td>F. Regazzoni, Y. Wang, F.-X. Standaert (2011)</td>
+        <td>CARDIS / Springer LNCS</td>
+        <td>FPGA Implementations of Masked AES: A Comparative Evaluation</td>
+        <td>Compared masked AES architectures on FPGA and highlighted trade-offs between resource use, throughput and side-channel resistance.</td>
+        <td>FPGA implementation effects and routing imbalances make leakage behavior implementation dependent.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ================= PAGE 3 ================= -->
+<div class="page">
+  <table class="lit-table" style="margin-top: 0;">
+    <thead>
+      <tr>
+        <th style="width: 5%;">S. No</th>
+        <th style="width: 17%;">Authors and Year</th>
+        <th style="width: 17%;">Journal / Venue</th>
+        <th style="width: 20%;">Paper Title</th>
+        <th style="width: 21%;">Major Findings</th>
+        <th style="width: 20%;">Limitations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="center">6.</td>
+        <td>G. T. Becker, J. Cooper, E. DeMulder, G. Goodwill, J. Jaffe, et al. (2013)</td>
+        <td>ICMC</td>
+        <td>Test Vector Leakage Assessment (TVLA) Methodology in Practice</td>
+        <td>Presented a practical, model-independent Welch’s t-test based methodology for detecting side-channel leakage.</td>
+        <td>TVLA detects evidence of leakage but does not by itself quantify key-recovery complexity or minimum-time-to-disclosure.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1>3. Research Gaps</h1>
+  <ul>
+    <li>Standard AES hardware implementations can exhibit data-dependent power leakage even when their functional behavior is correct.</li>
+    <li>Conventional synthesis and functional verification flows do not automatically guarantee resistance to physical side-channel attacks.</li>
+    <li>The nonlinear S-box is difficult to protect efficiently because masking can increase area and timing overhead and implementation glitches can contribute to leakage.</li>
+    <li>There is a need to study a practical FPGA-oriented masked AES-128 design while quantitatively considering security and hardware-resource trade-offs.</li>
+    <li>The selected base paper demonstrates strong side-channel resistance in custom Intel 4 CMOS, but its specialized implementation motivates investigation of a synthesizable academic RTL/FPGA-oriented approach.</li>
+  </ul>
+
+  <h1>4. Objectives</h1>
+  <ol>
+    <li>To develop a synthesizable baseline AES-128 RTL core and verify its functional behavior using NIST FIPS 197 test vectors.</li>
+    <li>To implement a first-order Boolean masking scheme using the two-share relation <i>X′ = X ⊕ M</i>.</li>
+    <li>To study and implement a masked nonlinear AES S-box together with dynamic mask generation/refresh.</li>
+    <li>To synthesize baseline and masked designs in AMD-Xilinx Vivado and compare LUT, FF, BRAM, maximum frequency and power.</li>
+    <li>To evaluate side-channel leakage using power-trace analysis and Welch’s t-test / TVLA.</li>
+  </ol>
+
+  <h1>5. Proposed Methodology</h1>
+  <p>
+  The proposed workflow begins with a baseline AES-128 RTL implementation. After functional verification, 
+  first-order Boolean masking is introduced across the sensitive datapath. The masked architecture uses two 
+  shares, with a random mask generated and refreshed during operation. Particular attention is given to the masked 
+  S-box because it is the principal nonlinear component of AES.
+  </p>
+  <p>
+  The protected and unprotected implementations will subsequently be synthesized using AMD-Xilinx Vivado. 
+  Hardware-resource utilization, timing and power will be recorded for comparison. Finally, power traces will be 
+  analyzed using Welch’s t-test / TVLA to assess whether statistically detectable leakage remains.
+  </p>
+  <p>
+  Target specification: 128-bit key and block, 10 AES rounds, first-order Boolean masking (d = 1, two shares), 
+  and AMD-Xilinx Vivado as the target EDA flow.
+  </p>
+</div>
+
+<!-- ================= PAGE 4 ================= -->
+<div class="page">
+  <h1 style="margin-top: 0;">6. Work Completed Till Date</h1>
+
+  <h2>6.1 Literature Survey and Base Paper Study</h2>
+  <p>
+  A comprehensive literature survey was completed covering AES hardware security, side-channel attack models (DPA and CPA), masking countermeasures, and statistical leakage evaluation. The selected base paper by R. Kumar et al. (Intel 4 CMOS, JSSC 2023) was studied in detail, establishing the design goals for side-channel resistance and motivating our synthesizable FPGA RTL architecture.
+  </p>
+
+  <h2>6.2 Hardware RTL Architecture Design (Baseline & Masked AES-128)</h2>
+  <p>
+  Complete, modular synthesizable Verilog HDL descriptions have been implemented for both target cryptographic cores:
+  </p>
+  <ul>
+    <li><b>Baseline AES-128 Iterative Core (<code>aes_128_core.v</code>):</b> Implemented a 128-bit iterative datapath completing 10 encryption rounds in 11 clock cycles. Modules include <code>sub_bytes.v</code> (16 parallel S-Boxes), <code>shift_rows.v</code> (wire permutations), <code>mix_columns.v</code> (GF(2<sup>8</sup>) matrix multiply via xtime logic), <code>add_round_key.v</code>, and an on-the-fly <code>key_expansion.v</code> module generating round keys dynamically without lookup memory tables.</li>
+    <li><b>First-Order Boolean Masked Core (<code>aes_128_masked_core.v</code>):</b> Sensitive datapath variables are split into two random shares: Share 1 (masked data state <i>S′ = P ⊕ M</i>) and Share 2 (random mask state <i>M</i>). Linear layers (ShiftRows and MixColumns) operate on both shares concurrently. The nonlinear SubBytes transformation is implemented using <code>masked_sub_bytes.v</code> and <code>masked_sbox.v</code> with dynamic mask refreshment. At round 10, the two shares are recombined (<i>C = S′<sub>final</sub> ⊕ M<sub>final</sub></i>) to yield the valid NIST ciphertext.</li>
+  </ul>
+
+  <h2>6.3 NIST Verification & Simulation Environment</h2>
+  <p>
+  A robust verification environment was established using self-checking Verilog testbenches (<code>tb_aes_128_core.v</code> and <code>tb_aes_128_masked_core.v</code>) alongside bit-accurate Python golden reference models (<code>verify_full_aes.py</code> and <code>verify_masked_aes.py</code>). Both cores were simulated in Vivado XSim and verified against the official test vectors published in <b>NIST FIPS PUB 197</b> (Appendix B and Appendix C.1). 100% functional match was verified with zero bit mismatches.
+  </p>
+
+  <h2>6.4 AMD-Xilinx Vivado Logic Synthesis Flow</h2>
+  <p>
+  Automated Vivado Tcl scripts (<code>build_vivado_project.tcl</code>) were authored to execute logic synthesis in <b>AMD-Xilinx Vivado ML v2025.2</b> targeting the <b>Artix-7 (<code>xc7a35tcsg324-1</code>)</b> device library. The synthesis engine translates the behavioral Verilog RTL into technology-mapped Look-Up Tables (LUTs) and registers (Flip-Flops). This software-based EDA synthesis flow enables accurate extraction of hardware area utilization, logic gate distribution, and static timing metrics directly within the Vivado environment without requiring a physical FPGA evaluation board.
+  </p>
+</div>
+
+<!-- ================= PAGE 5 ================= -->
+<div class="page">
+  <h1 style="margin-top: 0;">7. Results Obtained</h1>
+
+  <h2>7.1 Functional Verification Results</h2>
+  <p>
+  Functional simulation verified that both the baseline and masked cores produce bit-accurate ciphertexts complying 100% with NIST FIPS 197 test vectors:
+  </p>
+
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th style="width: 18%;">Test Vector</th>
+        <th style="width: 38%;">Plaintext / Key</th>
+        <th style="width: 32%;">Expected / Simulated Ciphertext</th>
+        <th style="width: 12%;" class="center">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bold">NIST FIPS 197<br>Appendix B</td>
+        <td>PT: 3243f6a8885a308d313198a2e0370734<br>Key: 2b7e151628aed2a6abf7158809cf4f3c</td>
+        <td>Exp: 3925841d02dc09fbdc118597196a0b32<br>Sim: 3925841d02dc09fbdc118597196a0b32</td>
+        <td class="center bold" style="color: green;">PASSED<br>(100% Match)</td>
+      </tr>
+      <tr>
+        <td class="bold">NIST FIPS 197<br>Appendix C.1</td>
+        <td>PT: 00112233445566778899aabbccddeeff<br>Key: 000102030405060708090a0b0c0d0e0f</td>
+        <td>Exp: 69c4e0d86a7b0430d8cdb78070b4c55a<br>Sim: 69c4e0d86a7b0430d8cdb78070b4c55a</td>
+        <td class="center bold" style="color: green;">PASSED<br>(100% Match)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>7.2 FPGA Logic Synthesis & Resource Utilization Results</h2>
+  <p>
+  Both architectures were synthesized targeting the Artix-7 35T FPGA cell library in Vivado v2025.2 with a 100 MHz target system clock constraint (10.0 ns period). The comparative synthesis metrics are summarized below:
+  </p>
+
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th style="width: 28%;">Metric / Resource</th>
+        <th style="width: 22%;" class="center">Baseline AES-128</th>
+        <th style="width: 24%;" class="center">Masked AES-128</th>
+        <th style="width: 26%;" class="center">Overhead / Compliance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bold">Slice LUTs</td>
+        <td class="center">1,350</td>
+        <td class="center">1,924</td>
+        <td class="center bold">+ 42.5% (Util: 9.25%)</td>
+      </tr>
+      <tr>
+        <td class="bold">Slice Registers (FF)</td>
+        <td class="center">393</td>
+        <td class="center">524</td>
+        <td class="center bold">+ 33.3% (Util: 1.26%)</td>
+      </tr>
+      <tr>
+        <td class="bold">Block RAM / DSP Slices</td>
+        <td class="center">0 / 0</td>
+        <td class="center">0 / 0</td>
+        <td class="center">0% (100% Available)</td>
+      </tr>
+      <tr>
+        <td class="bold">Worst Negative Slack (WNS)</td>
+        <td class="center">+ 4.162 ns</td>
+        <td class="center">+ 1.540 ns</td>
+        <td class="center bold" style="color: green;">PASSED (Setup Clean)</td>
+      </tr>
+      <tr>
+        <td class="bold">Worst Hold Slack (WHS)</td>
+        <td class="center">+ 0.161 ns</td>
+        <td class="center">+ 0.164 ns</td>
+        <td class="center bold" style="color: green;">PASSED (Hold Clean)</td>
+      </tr>
+      <tr>
+        <td class="bold">Maximum Frequency (F<sub>max</sub>)</td>
+        <td class="center">171.30 MHz</td>
+        <td class="center">118.20 MHz</td>
+        <td class="center bold">> 100 MHz Specification</td>
+      </tr>
+      <tr>
+        <td class="bold">Latency / Peak Throughput</td>
+        <td class="center">11 Cycles / 1.99 Gbps</td>
+        <td class="center">11 Cycles / 1.37 Gbps</td>
+        <td class="center bold">Gigabit Line-Rate Speed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>7.3 Software-Based Synthesis & Simulation Scope</h2>
+  <p>
+  All design evaluation at this milestone is conducted strictly within the EDA software environment using AMD-Xilinx Vivado and ModelSim/XSim. Functional correctness is verified through algorithmic testbench simulations against NIST standards, while hardware feasibility is confirmed through logic synthesis and static timing reports. The design is evaluated purely at the RTL and gate netlist level without requiring physical hardware deployment, board flashing, or chip package pin assignment. This software-centric workflow ensures rigorous verification of the masking mathematics and gate-level overhead while keeping the project self-contained.
+  </p>
+</div>
+
+<!-- ================= PAGE 6 ================= -->
+<div class="page-last">
+  <h1 style="margin-top: 0;">8. Future Plan of Work</h1>
+  <ol>
+    <li><b>Autonomous On-Chip PRNG Integration:</b> Integrate a dedicated 128-bit hardware Pseudo-Random Number Generator (LFSR or Xorshift) to generate and refresh random masks internally on-chip cycle-by-cycle, removing external testbench feed dependencies.</li>
+    <li><b>Glitch-Resistant Composite-Field Canright S-Box:</b> Replace lookup-table-based S-Box architectures with Canright composite-field GF((2<sup>4</sup>)<sup>2</sup>) arithmetic to suppress dynamic CMOS glitch-induced transient power leakage.</li>
+    <li><b>Power-Trace Simulation & Welch’s t-test / TVLA:</b> Collect cycle-accurate switching activity files (VCD/SAIF) from Vivado timing simulations and compute Welch’s t-test (Test Vector Leakage Assessment) statistics to verify that leakage t-values satisfy |t| &lt; 4.5.</li>
+    <li><b>Physical FPGA Hardware Prototyping:</b> Once a physical FPGA development board is procured in future revisions, integrate an on-chip communication interface (e.g., UART or AXI) to bridge host data and program the bitstream for laboratory board-level measurements.</li>
+    <li><b>Final Dissertation, Documentation & Defense:</b> Consolidate final experimental measurements, complete the B.Tech project dissertation, and prepare the project viva presentation and demonstration.</li>
+  </ol>
+
+  <h1>9. References</h1>
+  <div class="ref-list">
+    <div class="ref-item">[1] R. Kumar, V. B. Suresh, S. Taneja, M. A. Anders, S. Hsu, A. Agarwal, V. De, and S. K. Mathew, “A 7-Gbps SCA-Resistant Multiplicative-Masked AES Engine in Intel 4 CMOS,” <i>IEEE Journal of Solid-State Circuits</i>, vol. 58, no. 4, pp. 1106–1116, Apr. 2023.</div>
+    <div class="ref-item">[2] National Institute of Standards and Technology (NIST), “Advanced Encryption Standard (AES),” <i>Federal Information Processing Standards Publication FIPS PUB 197</i>, Nov. 2001, updated 2023.</div>
+    <div class="ref-item">[3] P. Kocher, J. Jaffe, and B. Jun, “Differential Power Analysis,” in <i>Advances in Cryptology—CRYPTO ’99</i>, LNCS, vol. 1666, Springer, 1999, pp. 388–397.</div>
+    <div class="ref-item">[4] S. Chari, C. S. Jutla, J. R. Rao, and P. Rohatgi, “Towards Sound Approaches to Counteract Power-Analysis Attacks,” in <i>Advances in Cryptology—CRYPTO ’99</i>, LNCS, vol. 1666, Springer, 1999, pp. 398–412.</div>
+    <div class="ref-item">[5] D. Canright and L. Batina, “A Very Compact Perfectly Masked S-Box for AES,” in <i>Applied Cryptography and Network Security (ACNS 2008)</i>, LNCS, vol. 5037, Springer, 2008, pp. 446–459.</div>
+    <div class="ref-item">[6] F. Regazzoni, Y. Wang, and F.-X. Standaert, “FPGA Implementations of Masked AES: A Comparative Evaluation,” in <i>CARDIS</i>, Springer LNCS, 2011.</div>
+    <div class="ref-item">[7] G. T. Becker, J. Cooper, E. DeMulder, G. Goodwill, J. Jaffe, et al., “Test Vector Leakage Assessment (TVLA) Methodology in Practice,” <i>Proc. International Cryptographic Module Conference (ICMC)</i>, 2013.</div>
+  </div>
+</div>
+
+</body>
+</html>

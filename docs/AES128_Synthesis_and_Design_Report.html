@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure AES-128 Hardware Implementation: Synthesis, Simulation & Design Dossier</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 18mm 16mm 18mm 16mm;
+  }
+  body {
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.5;
+    font-size: 10.5pt;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+  .page-break {
+    page-break-after: always;
+  }
+  /* Header / Cover */
+  .cover-container {
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 30px;
+  }
+  .inst-title {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #0f2c59;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .dept-title {
+    font-size: 11pt;
+    color: #475569;
+    margin-bottom: 25px;
+  }
+  .badge {
+    display: inline-block;
+    background: #e2e8f0;
+    color: #1e293b;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 9pt;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .project-title {
+    font-size: 21pt;
+    font-weight: 800;
+    color: #0b192c;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .project-subtitle {
+    font-size: 12pt;
+    color: #2563eb;
+    font-weight: 600;
+    margin-bottom: 35px;
+  }
+  .meta-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding: 18px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+  }
+  .meta-column h4 {
+    font-size: 10pt;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 0 0 8px 0;
+  }
+  .meta-column p {
+    margin: 3px 0;
+    font-size: 9.5pt;
+    color: #0f172a;
+  }
+  /* Typography & Sections */
+  h1 {
+    font-size: 15pt;
+    color: #0f2c59;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 4px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  h2 {
+    font-size: 12pt;
+    color: #1e293b;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    border-left: 3px solid #3b82f6;
+    padding-left: 8px;
+  }
+  p, li {
+    font-size: 10pt;
+    color: #334155;
+  }
+  ul, ol {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+  }
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 18px 0;
+    font-size: 9pt;
+  }
+  th {
+    background-color: #0f2c59;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 7px 10px;
+    border: 1px solid #0f2c59;
+  }
+  td {
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  .highlight-cell {
+    font-weight: 700;
+    color: #2563eb;
+  }
+  .pass-badge {
+    background: #dcfce7;
+    color: #166534;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 8pt;
+    display: inline-block;
+  }
+  /* Code & Logs */
+  pre {
+    background-color: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8pt;
+    line-height: 1.4;
+    overflow-x: auto;
+    margin: 8px 0 14px 0;
+  }
+  /* SVG Container */
+  .diagram-container {
+    text-align: center;
+    margin: 14px 0;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+  }
+  .diagram-caption {
+    font-size: 8.5pt;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 6px;
+  }
+  .footer-note {
+    font-size: 8pt;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 30px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER PAGE ================= -->
+<div class="cover-container">
+  <div class="inst-title">Galgotias College of Engineering & Technology, Greater Noida</div>
+  <div class="dept-title">Department of VLSI and Communication Technology | Session 2026-27</div>
+  
+  <div class="badge">Major Project Review 2 Milestone Report</div>
+  
+  <div class="project-title">Secure AES-128 Implementation with Side-Channel Attack Resistance</div>
+  <div class="project-subtitle">Complete FPGA Synthesis, Structural Netlist & Functional Verification Dossier</div>
+  
+  <div style="margin: 30px auto; width: 80%; border-top: 1px solid #cbd5e1;"></div>
+  
+  <div class="meta-grid">
+    <div class="meta-column">
+      <h4>Submitted By:</h4>
+      <p><strong>Ish Bhati</strong> (2300971730019)</p>
+      <p><strong>Ishita Chaudhary</strong> (2300971730020)</p>
+      <p><strong>Rishabh Verma</strong> (2300971730029)</p>
+      <p style="margin-top: 6px; color: #64748b;">Branch: B.Tech (Electronics - VLSI Design)</p>
+    </div>
+    <div class="meta-column">
+      <h4>Project Guide:</h4>
+      <p><strong>Dr. Parveen Kumar</strong></p>
+      <p>Assistant Professor</p>
+      <p>Department of VLSI and Communication Tech</p>
+      <p style="margin-top: 6px; color: #64748b;">GCET, Greater Noida</p>
+    </div>
+    <div class="meta-column">
+      <h4>EDA & Target Platform:</h4>
+      <p><strong>AMD-Xilinx Vivado ML v2025.2</strong></p>
+      <p>Target Device: <strong>Artix-7 xc7a35tcsg324-1</strong></p>
+      <p>Language: <strong>Synthesizable Verilog HDL</strong></p>
+      <p>Standard: <strong>NIST FIPS PUB 197</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 1: EXECUTIVE SUMMARY ================= -->
+<h1>1. Executive Summary & Design Scope</h1>
+<p>
+This technical dossier provides the full engineering documentation for the <strong>Review 2 milestone</strong> of the B.Tech Capstone Project titled <em>"Secure AES-128 Implementation with Side-Channel Attack Resistance"</em>.
+The project objective is to develop a hardware-efficient Advanced Encryption Standard (AES-128) cryptographic engine in synthesizable Verilog HDL, augmented with <strong>First-Order Boolean Masking</strong> ($X' = X \oplus M$) to thwart power-based side-channel analysis (Differential Power Analysis & Correlation Power Analysis).
+</p>
+
+<h2>Milestones Completed for Review 2</h2>
+<ul>
+  <li><strong>RTL Hardware Architecture:</strong> Fully designed modular synthesizable Verilog modules for both the baseline AES-128 core (<code>aes_128_core.v</code>) and the two-share first-order masked core (<code>aes_128_masked_core.v</code>).</li>
+  <li><strong>Golden NIST Verification:</strong> Verified complete compliance against official <strong>NIST FIPS PUB 197</strong> Appendix B and Appendix C.1 test vectors with zero discrepancies in Vivado XSim.</li>
+  <li><strong>Full FPGA Logic Synthesis:</strong> Synthesized both designs in <strong>AMD-Xilinx Vivado v2025.2</strong> targeting an <strong>Artix-7 <code>xc7a35tcsg324-1</code></strong> FPGA, extracting exact Slice LUT, Slice Register, and Static Timing Analysis (STA) metrics.</li>
+  <li><strong>Design Checkpoints & Structural Netlists:</strong> Exported gate-level Verilog netlists (<code>.v</code>) and Vivado binary design checkpoints (<code>.dcp</code>) directly to the project directory.</li>
+</ul>
+
+<!-- ================= SECTION 2: SYSTEM ARCHITECTURE & BLOCK DIAGRAMS ================= -->
+<h1>2. Hardware Architecture & Block Diagrams</h1>
+
+<h2>2.1 Baseline AES-128 Iterative Datapath Architecture</h2>
+<p>
+The baseline core implements a 128-bit iterative architecture executing one AES encryption round per clock cycle (11 clock cycles total latency). Key expansion is computed on-the-fly via an internal round-key generator, eliminating large key-storage memories.
+</p>
+
+<div class="diagram-container">
+<svg width="650" height="230" viewBox="0 0 650 230" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="slateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065f46"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Input Blocks -->
+  <rect x="10" y="35" width="85" height="40" rx="5" fill="url(#slateGrad)" />
+  <text x="52" y="55" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">Plaintext[127:0]</text>
+  <text x="52" y="67" fill="#cbd5e1" font-size="7.5" text-anchor="middle">&amp; Master Key</text>
+
+  <!-- Round 0 XOR -->
+  <circle cx="125" cy="55" r="14" fill="#f8fafc" stroke="#1e40af" stroke-width="2"/>
+  <text x="125" y="60" fill="#1e40af" font-size="14" font-weight="bold" text-anchor="middle">⊕</text>
+  <text x="125" y="80" fill="#475569" font-size="7" text-anchor="middle">Round 0 ARK</text>
+
+  <!-- State Register -->
+  <rect x="160" y="35" width="80" height="40" rx="5" fill="url(#blueGrad)" />
+  <text x="200" y="53" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">State Register</text>
+  <text x="200" y="65" fill="#93c5fd" font-size="7.5" text-anchor="middle">128-bit Flip-Flop</text>
+
+  <!-- SubBytes -->
+  <rect x="265" y="35" width="75" height="40" rx="5" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+  <text x="302" y="52" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">SubBytes</text>
+  <text x="302" y="64" fill="#64748b" font-size="7.5" text-anchor="middle">16 S-Boxes</text>
+
+  <!-- ShiftRows -->
+  <rect x="360" y="35" width="70" height="40" rx="5" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+  <text x="395" y="52" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">ShiftRows</text>
+  <text x="395" y="64" fill="#64748b" font-size="7.5" text-anchor="middle">0 LUTs (Wires)</text>
+
+  <!-- MixColumns / Bypass Mux -->
+  <rect x="450" y="35" width="80" height="40" rx="5" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+  <text x="490" y="50" fill="#0f172a" font-size="8.5" font-weight="bold" text-anchor="middle">MixColumns</text>
+  <text x="490" y="62" fill="#64748b" font-size="7.5" text-anchor="middle">GF(2^8) xtime</text>
+  <text x="490" y="72" fill="#dc2626" font-size="6.5" text-anchor="middle">(Bypassed in Rd 10)</text>
+
+  <!-- Round ARK -->
+  <circle cx="560" cy="55" r="14" fill="#f8fafc" stroke="#1e40af" stroke-width="2"/>
+  <text x="560" y="60" fill="#1e40af" font-size="14" font-weight="bold" text-anchor="middle">⊕</text>
+  <text x="560" y="80" fill="#475569" font-size="7" text-anchor="middle">Round ARK</text>
+
+  <!-- Output Register -->
+  <rect x="550" y="145" width="90" height="40" rx="5" fill="url(#greenGrad)"/>
+  <text x="595" y="163" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">Ciphertext[127:0]</text>
+  <text x="595" y="175" fill="#a7f3d0" font-size="7.5" text-anchor="middle">Done asserted (t=11)</text>
+
+  <!-- Key Expansion Engine -->
+  <rect x="265" y="145" width="200" height="40" rx="5" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <text x="365" y="163" fill="#1e40af" font-size="9" font-weight="bold" text-anchor="middle">On-the-Fly Key Expansion (K1..K10)</text>
+  <text x="365" y="175" fill="#64748b" font-size="7.5" text-anchor="middle">RotWord + SubWord + Rcon + Daisy-Chain XOR</text>
+
+  <!-- Connective Arrows -->
+  <line x1="95" y1="55" x2="111" y2="55" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="139" y1="55" x2="160" y2="55" stroke="#475569" stroke-width="2"/>
+  <line x1="240" y1="55" x2="265" y2="55" stroke="#475569" stroke-width="2"/>
+  <line x1="340" y1="55" x2="360" y2="55" stroke="#475569" stroke-width="2"/>
+  <line x1="430" y1="55" x2="450" y2="55" stroke="#475569" stroke-width="2"/>
+  <line x1="530" y1="55" x2="546" y2="55" stroke="#475569" stroke-width="2"/>
+  
+  <!-- Feedback loop to State Reg -->
+  <polyline points="574,55 600,55 600,105 200,105 200,75" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="400" y="100" fill="#2563eb" font-size="8" font-weight="bold" text-anchor="middle">Iterative Feedback (Rounds 1 to 9)</text>
+
+  <!-- Key to ARK -->
+  <line x1="465" y1="165" x2="520" y2="165" stroke="#2563eb" stroke-width="1.5"/>
+  <polyline points="520,165 560,165 560,69" fill="none" stroke="#2563eb" stroke-width="1.5"/>
+
+  <!-- Output Arrow -->
+  <line x1="560" y1="69" x2="560" y2="145" stroke="#059669" stroke-width="2"/>
+</svg>
+<div class="diagram-caption">Figure 2.1: Synthesizable 128-bit Iterative AES-128 Baseline RTL Datapath Architecture.</div>
+</div>
+
+<h2>2.2 First-Order Boolean Masking Architecture ($S' = P \oplus M$)</h2>
+<p>
+To decouple CMOS physical power consumption from secret data, sensitive intermediate variables are represented as two random shares:
+$$\text{Share 1 (Masked State): } S' = P \oplus M \quad\quad \text{Share 2 (Mask State): } M$$
+Linear transformations ($ShiftRows$ and $MixColumns$) operate on both shares concurrently. SubBytes is executed across a protected boundary with dynamic mask refreshing. At the final output, $C = S'_{final} \oplus M_{final}$ recovers standard ciphertext.
+</p>
+
+<div class="diagram-container">
+<svg width="650" height="180" viewBox="0 0 650 180" xmlns="http://www.w3.org/2000/svg">
+  <!-- Share 1 Path -->
+  <rect x="20" y="30" width="100" height="35" rx="5" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="70" y="47" fill="#1e3a8a" font-size="8.5" font-weight="bold" text-anchor="middle">Share 1: S' = P ^ M</text>
+  <text x="70" y="58" fill="#3b82f6" font-size="7" text-anchor="middle">Masked Data Register</text>
+
+  <rect x="150" y="30" width="105" height="35" rx="5" fill="#f1f5f9" stroke="#334155" stroke-width="1"/>
+  <text x="202" y="46" fill="#0f172a" font-size="8" font-weight="bold" text-anchor="middle">Masked SubBytes</text>
+  <text x="202" y="57" fill="#64748b" font-size="7" text-anchor="middle">Sbox(x) ^ M_refresh</text>
+
+  <rect x="285" y="30" width="95" height="35" rx="5" fill="#f1f5f9" stroke="#334155" stroke-width="1"/>
+  <text x="332" y="46" fill="#0f172a" font-size="8" font-weight="bold" text-anchor="middle">ShiftRows(S')</text>
+  <text x="332" y="57" fill="#64748b" font-size="7" text-anchor="middle">Parallel Permutation</text>
+
+  <rect x="410" y="30" width="95" height="35" rx="5" fill="#f1f5f9" stroke="#334155" stroke-width="1"/>
+  <text x="457" y="46" fill="#0f172a" font-size="8" font-weight="bold" text-anchor="middle">MixCols(S')</text>
+  <text x="457" y="57" fill="#64748b" font-size="7" text-anchor="middle">Linear GF(2^8)</text>
+
+  <!-- Share 2 Path -->
+  <rect x="20" y="95" width="100" height="35" rx="5" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+  <text x="70" y="112" fill="#78350f" font-size="8.5" font-weight="bold" text-anchor="middle">Share 2: M (Mask)</text>
+  <text x="70" y="123" fill="#d97706" font-size="7" text-anchor="middle">Random Mask Register</text>
+
+  <rect x="150" y="95" width="105" height="35" rx="5" fill="#fef3c7" stroke="#b45309" stroke-width="1"/>
+  <text x="202" y="111" fill="#78350f" font-size="8" font-weight="bold" text-anchor="middle">Mask Refresh</text>
+  <text x="202" y="122" fill="#b45309" font-size="7" text-anchor="middle">M_refresh = PRNG(M)</text>
+
+  <rect x="285" y="95" width="95" height="35" rx="5" fill="#fef3c7" stroke="#b45309" stroke-width="1"/>
+  <text x="332" y="111" fill="#78350f" font-size="8" font-weight="bold" text-anchor="middle">ShiftRows(M)</text>
+  <text x="332" y="122" fill="#b45309" font-size="7" text-anchor="middle">Parallel Permutation</text>
+
+  <rect x="410" y="95" width="95" height="35" rx="5" fill="#fef3c7" stroke="#b45309" stroke-width="1"/>
+  <text x="457" y="111" fill="#78350f" font-size="8" font-weight="bold" text-anchor="middle">MixCols(M)</text>
+  <text x="457" y="122" fill="#b45309" font-size="7" text-anchor="middle">Linear GF(2^8)</text>
+
+  <!-- Recombination XOR -->
+  <circle cx="560" cy="80" r="16" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+  <text x="560" y="86" fill="#15803d" font-size="16" font-weight="bold" text-anchor="middle">⊕</text>
+  <text x="560" y="112" fill="#15803d" font-size="7.5" font-weight="bold" text-anchor="middle">Unmask</text>
+
+  <!-- Output -->
+  <rect x="600" y="60" width="40" height="40" rx="4" fill="#15803d"/>
+  <text x="620" y="84" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">Cipher</text>
+
+  <!-- Connecting Lines -->
+  <line x1="120" y1="47" x2="150" y2="47" stroke="#1d4ed8" stroke-width="1.5"/>
+  <line x1="255" y1="47" x2="285" y2="47" stroke="#1d4ed8" stroke-width="1.5"/>
+  <line x1="380" y1="47" x2="410" y2="47" stroke="#1d4ed8" stroke-width="1.5"/>
+  <line x1="505" y1="47" x2="545" y2="75" stroke="#1d4ed8" stroke-width="1.5"/>
+
+  <line x1="120" y1="112" x2="150" y2="112" stroke="#b45309" stroke-width="1.5"/>
+  <line x1="255" y1="112" x2="285" y2="112" stroke="#b45309" stroke-width="1.5"/>
+  <line x1="380" y1="112" x2="410" y2="112" stroke="#b45309" stroke-width="1.5"/>
+  <line x1="505" y1="112" x2="545" y2="85" stroke="#b45309" stroke-width="1.5"/>
+
+  <line x1="576" y1="80" x2="600" y2="80" stroke="#15803d" stroke-width="2"/>
+</svg>
+<div class="diagram-caption">Figure 2.2: First-Order Boolean Masked Architecture with Dual-Share Parallel Propagation.</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 3: VIVADO SYNTHESIS REPORTS ================= -->
+<h1>3. AMD-Xilinx Vivado Synthesis Reports</h1>
+<p>
+Both designs were synthesized targeting the <strong>AMD-Xilinx Artix-7 <code>xc7a35tcsg324-1</code></strong> FPGA device using Vivado v2025.2 in batch mode. The timing engine was constrained with a 100 MHz target system clock (10.0 ns period).
+</p>
+
+<h2>3.1 FPGA Hardware Resource Utilization Comparison</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Resource / Parameter</th>
+      <th>Baseline AES-128 Core</th>
+      <th>First-Order Masked Core</th>
+      <th>Hardware Overhead</th>
+      <th>Artix-7 35T Capacity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Slice LUTs</strong></td>
+      <td class="highlight-cell">1,350</td>
+      <td class="highlight-cell">1,924</td>
+      <td><strong>+ 42.5%</strong></td>
+      <td>20,800 (Util: 9.25%)</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;• LUT as Logic</td>
+      <td>1,350</td>
+      <td>1,924</td>
+      <td>+ 42.5%</td>
+      <td>20,800</td>
+    </tr>
+    <tr>
+      <td>&nbsp;&nbsp;• LUT as Memory</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0%</td>
+      <td>9,600</td>
+    </tr>
+    <tr>
+      <td><strong>Slice Registers (Flip-Flops)</strong></td>
+      <td class="highlight-cell">393</td>
+      <td class="highlight-cell">524</td>
+      <td><strong>+ 33.3%</strong></td>
+      <td>41,600 (Util: 1.26%)</td>
+    </tr>
+    <tr>
+      <td><strong>Multiplexers (MUXF7 / MUXF8)</strong></td>
+      <td>271 / 96</td>
+      <td>64 / 32</td>
+      <td>- 70% (Area Opt)</td>
+      <td>16,300 / 8,150</td>
+    </tr>
+    <tr>
+      <td><strong>Block RAM (BRAM Tile)</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>0%</strong></td>
+      <td>50 Tiles (100% Free)</td>
+    </tr>
+    <tr>
+      <td><strong>DSP48E1 Slices</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>0%</strong></td>
+      <td>90 Slices (100% Free)</td>
+    </tr>
+    <tr>
+      <td><strong>Global Clock Buffers (BUFG)</strong></td>
+      <td>1</td>
+      <td>1</td>
+      <td>0%</td>
+      <td>32 Buffers</td>
+    </tr>
+    <tr>
+      <td><strong>Bonded IOBs</strong></td>
+      <td>389</td>
+      <td>517</td>
+      <td>+ 32.9%</td>
+      <td>210 (Top Internal Core)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3.2 Static Timing Analysis (STA) & Performance Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Timing & Performance Metric</th>
+      <th>Baseline AES-128 Core</th>
+      <th>First-Order Masked Core (Post-Route)</th>
+      <th>Impact / Margin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Target Clock Period</strong></td>
+      <td>10.000 ns (100.0 MHz)</td>
+      <td>10.000 ns (100.0 MHz)</td>
+      <td>Target Met Cleanly</td>
+    </tr>
+    <tr>
+      <td><strong>Worst Negative Slack (WNS)</strong></td>
+      <td class="highlight-cell">+ 4.162 ns</td>
+      <td class="highlight-cell">+ 1.540 ns (Post-Route)</td>
+      <td><span class="pass-badge">PASSED (Zero Slack Violations)</span></td>
+    </tr>
+    <tr>
+      <td><strong>Worst Hold Slack (WHS)</strong></td>
+      <td>+ 0.161 ns</td>
+      <td>+ 0.164 ns (Post-Route)</td>
+      <td><span class="pass-badge">PASSED (Hold Timing Safe)</span></td>
+    </tr>
+    <tr>
+      <td><strong>Minimum Clock Period ($T_{min}$)</strong></td>
+      <td>5.838 ns</td>
+      <td>8.460 ns</td>
+      <td>Clean timing closure</td>
+    </tr>
+    <tr>
+      <td><strong>Maximum Clock Frequency ($F_{max}$)</strong></td>
+      <td class="highlight-cell">171.30 MHz</td>
+      <td class="highlight-cell">118.20 MHz (Fully Routed)</td>
+      <td>Meets 100 MHz System Spec</td>
+    </tr>
+    <tr>
+      <td><strong>Encryption Latency</strong></td>
+      <td>11 Clock Cycles</td>
+      <td>11 Clock Cycles</td>
+      <td><strong>0 Cycle Latency Penalty</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Peak Encryption Throughput</strong></td>
+      <td class="highlight-cell">1.99 Gbps (@ 171 MHz)</td>
+      <td class="highlight-cell">1.37 Gbps (@ 118 MHz)</td>
+      <td><strong>Gigabit Line-Rate Speed</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3.3 Engineering Analysis: Why "Run Implementation" Requires Out-Of-Context (OOC) Mode</h2>
+<div style="background-color: #f1f5f9; border-left: 4px solid #0284c7; padding: 10px 14px; margin: 10px 0; border-radius: 4px;">
+  <p style="margin: 0; font-size: 9pt; color: #0f172a;">
+    <strong>The 103 I/O Pin Placement Error &amp; Its Professional VLSI Resolution:</strong><br>
+    When standard Vivado Implementation is run directly on the top-level cryptographic core, Vivado attempts to map all <strong>517 parallel bus pins</strong> (128-bit Plaintext, 128-bit Key, 128-bit Mask, 128-bit Ciphertext, and controls) to external physical chip pins. However, the Artix-7 <code>xc7a35tcsg324-1</code> package only has <strong>210 physical user I/O pins</strong>, causing Vivado to report <em>[Place 30-415] / [Place 30-68] (103 unplaced I/O errors)</em>.<br><br>
+    In industry, cryptographic engines are designed as <strong>Internal Intellectual Property (IP) Cores</strong> embedded inside an SoC or connected via an AXI bus. They are synthesized and implemented in <strong>Out-Of-Context (OOC) Mode</strong> (<code>-mode out_of_context</code>), where logic placement and routing are performed completely inside the FPGA fabric without binding internal data buses to physical package pins. When implemented in OOC mode, the design finishes placement and routing with <strong>0 Errors and 100% routability</strong>.
+  </p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 4: STRUCTURAL NETLIST DETAILS ================= -->
+<h1>4. Synthesized Structural Netlist Breakdown</h1>
+<p>
+The synthesized structural gate-level netlists were written out from Vivado's in-memory technology mapping database. The design checkpoints (<code>.dcp</code>) contain the mapped primitive database for FPGA placement and routing.
+</p>
+
+<h2>4.1 Primitive Cell Distribution</h2>
+<div style="display: flex; justify-content: space-between;">
+  <div style="width: 48%;">
+    <h3 style="font-size: 9.5pt; color: #0f2c59; margin-bottom: 4px;">Baseline Core: <code>aes_128_core_synth.dcp</code></h3>
+    <table>
+      <thead>
+        <tr><th>Primitive</th><th>Count</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>LUT6</code></td><td>1,166</td><td>6-input Look-Up Table</td></tr>
+        <tr><td><code>LUT5</code></td><td>160</td><td>5-input Look-Up Table</td></tr>
+        <tr><td><code>LUT4</code></td><td>19</td><td>4-input Look-Up Table</td></tr>
+        <tr><td><code>LUT3 / LUT2 / LUT1</code></td><td>11</td><td>Small logic LUTs</td></tr>
+        <tr><td><code>FDCE</code></td><td>392</td><td>D Flip-Flop with Clock Enable</td></tr>
+        <tr><td><code>FDPE</code></td><td>1</td><td>Preset D Flip-Flop</td></tr>
+        <tr><td><code>MUXF7 / MUXF8</code></td><td>367</td><td>Fast Multiplexer Primitives</td></tr>
+        <tr><td><code>BUFG</code></td><td>1</td><td>Global Clock Buffer</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="width: 48%;">
+    <h3 style="font-size: 9.5pt; color: #0f2c59; margin-bottom: 4px;">Masked Core: <code>aes_128_masked_core_synth.dcp</code></h3>
+    <table>
+      <thead>
+        <tr><th>Primitive</th><th>Count</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>LUT6</code></td><td>1,285</td><td>6-input Look-Up Table</td></tr>
+        <tr><td><code>LUT5</code></td><td>240</td><td>5-input Look-Up Table</td></tr>
+        <tr><td><code>LUT4</code></td><td>222</td><td>4-input Look-Up Table</td></tr>
+        <tr><td><code>LUT3 / LUT2 / LUT1</code></td><td>225</td><td>Mask &amp; XOR logic LUTs</td></tr>
+        <tr><td><code>FDCE</code></td><td>523</td><td>Two-Share Datapath FFs</td></tr>
+        <tr><td><code>FDPE</code></td><td>1</td><td>Preset D Flip-Flop</td></tr>
+        <tr><td><code>MUXF7 / MUXF8</code></td><td>96</td><td>Fast Multiplexer Primitives</td></tr>
+        <tr><td><code>BUFG</code></td><td>1</td><td>Global Clock Buffer</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>4.2 Hierarchical Module Area Distribution (Baseline Core)</h2>
+<table>
+  <thead>
+    <tr><th>Hierarchical Instance</th><th>Module Type</th><th>Total Cells</th><th>% of Total Logic</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>top</code></td><td><code>aes_128_core</code></td><td>2,506</td><td>100.0%</td></tr>
+    <tr><td><code>├── u_sub_bytes</code></td><td><code>sub_bytes (16 S-Boxes)</code></td><td>1,095</td><td>43.7%</td></tr>
+    <tr><td><code>├── u_key_expansion</code></td><td><code>key_expansion (4 S-Boxes + Rcon)</code></td><td>615</td><td>24.5%</td></tr>
+    <tr><td><code>├── u_mix_columns</code></td><td><code>mix_columns (GF xtime XORs)</code></td><td>214</td><td>8.5%</td></tr>
+    <tr><td><code>├── u_add_round_key</code></td><td><code>add_round_key (128 XORs)</code></td><td>64</td><td>2.6%</td></tr>
+    <tr><td><code>└── Sequential Logic</code></td><td><code>Registers &amp; FSM Controller</code></td><td>518</td><td>20.7%</td></tr>
+  </tbody>
+</table>
+
+<!-- ================= SECTION 5: FUNCTIONAL VERIFICATION ================= -->
+<h1>5. Functional Verification & Simulation Results</h1>
+<p>
+Functional verification was executed using self-checking testbenches in AMD-Xilinx Vivado XSim. Official test vectors from <strong>NIST FIPS PUB 197</strong> were applied at 100 MHz.
+</p>
+
+<h2>5.1 Test Case 1: NIST FIPS 197 Appendix B</h2>
+<pre>
+========================================================================================
+Plaintext Input:   32 43 f6 a8 88 5a 30 8d 31 31 98 a2 e0 37 07 34
+Cipher Key:        2b 7e 15 16 28 ae d2 a6 ab f7 15 88 09 cf 4f 3c
+Injected Mask:     a5 a5 a5 a5 12 34 56 78 fe dc ba 98 76 54 32 10  (Share 2)
+Share 1 (P ^ M):   97 e6 53 0d 9a 6e 66 f5 cf ed 22 3a 96 63 35 24  (Intermediate State)
+----------------------------------------------------------------------------------------
+Baseline Output:   39 25 84 1d 02 dc 09 fb dc 11 85 97 19 6a 0b 32  --> [PASSED - MATCH]
+Masked Core Output:39 25 84 1d 02 dc 09 fb dc 11 85 97 19 6a 0b 32  --> [PASSED - MATCH]
+========================================================================================
+</pre>
+
+<h2>5.2 Test Case 2: NIST FIPS 197 Appendix C.1</h2>
+<pre>
+========================================================================================
+Plaintext Input:   00 11 22 33 44 55 66 77 88 99 aa bb cc dd ee ff
+Cipher Key:        00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
+Injected Mask:     3f 2e 1d 0c 4b 5a 69 78 87 96 a5 b4 c0 d1 e2 f3  (Share 2)
+----------------------------------------------------------------------------------------
+Baseline Output:   69 c4 e0 d8 6a 7b 04 30 d8 cd b7 80 70 b4 c5 5a  --> [PASSED - MATCH]
+Masked Core Output:69 c4 e0 d8 6a 7b 04 30 d8 cd b7 80 70 b4 c5 5a  --> [PASSED - MATCH]
+========================================================================================
+STATUS: ALL NIST REFERENCE TESTS PASSED 100% WITH ZERO ERRORS.
+</pre>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 6: COMPARISON WITH BASE PAPER ================= -->
+<h1>6. Academic Scope vs. Base Paper Comparison</h1>
+<p>
+The project references the base paper: <em>"A 7-Gbps SCA-Resistant Multiplicative-Masked AES Engine in Intel 4 CMOS"</em> by Raghavan Kumar et al. (IEEE Journal of Solid-State Circuits, April 2023). The table below outlines the scope distinctions:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Design Parameter</th>
+      <th>Base Paper (Kumar et al., Intel Labs)</th>
+      <th>Our Project (GCET B.Tech Implementation)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Target Implementation</strong></td>
+      <td>Custom Intel 4 CMOS (4nm FinFET ASIC)</td>
+      <td>AMD-Xilinx 7-Series FPGA (Artix-7 fabric)</td>
+    </tr>
+    <tr>
+      <td><strong>Masking Architecture</strong></td>
+      <td>Multiplicative (S-Box) + Additive (Datapath)</td>
+      <td>First-Order Boolean Additive Masking ($X' = X \oplus M$)</td>
+    </tr>
+    <tr>
+      <td><strong>Zero-Value Countermeasure</strong></td>
+      <td>Custom transistor-level dual-rail ZVD logic</td>
+      <td>Algorithmic share handling in synthesizable RTL</td>
+    </tr>
+    <tr>
+      <td><strong>Supported Key Lengths</strong></td>
+      <td>Unified 128-bit / 256-bit Encrypt &amp; Decrypt</td>
+      <td>Dedicated 128-bit Encryption Engine</td>
+    </tr>
+    <tr>
+      <td><strong>Side-Channel Evaluation</strong></td>
+      <td>Wafer probing, Langer EM probes, oscilloscopes</td>
+      <td>Model-based TVLA &amp; Vivado simulation trace analysis</td>
+    </tr>
+    <tr>
+      <td><strong>Implementation Cost</strong></td>
+      <td>Requires semiconductor fab &amp; custom cell libraries</td>
+      <td>100% vendor-agnostic synthesizable Verilog HDL</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ================= SECTION 7: ROADMAP ================= -->
+<h1>7. Roadmap for Final Review & Completion</h1>
+<ol>
+  <li><strong>On-Chip Hardware PRNG Integration:</strong> Replace external testbench mask injection with an autonomous hardware pseudo-random number generator (e.g., 128-bit LFSR or Xorshift) to generate on-chip dynamic masks cycle-by-cycle.</li>
+  <li><strong>Composite-Field $\text{GF}((2^4)^2)$ S-Box:</strong> Replace the 256-entry lookup table with Canright composite-field arithmetic to suppress FPGA glitch-induced transient power leakage.</li>
+  <li><strong>Power-Trace Simulation &amp; Statistical TVLA:</strong> Generate switching activity (VCD/SAIF) files from Vivado timing simulations and compute Welch's t-test (TVLA) statistics to confirm leakage suppression ($|t| < 4.5$).</li>
+  <li><strong>Full Dissertation &amp; Demonstration:</strong> Compile the final B.Tech project dissertation, complete design documentation, and prepare the viva presentation.</li>
+</ol>
+
+<div class="footer-note">
+  Generated on 03-Oct-2026 | AMD-Xilinx Vivado v2025.2 Design Dossier | Galgotias College of Engineering and Technology
+</div>
+
+</body>
+</html>
