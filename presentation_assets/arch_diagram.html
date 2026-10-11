@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #ffffff; margin: 0; padding: 20px; }
+  .box { border: 2px solid #0F2557; border-radius: 8px; background: #F8FAFC; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+  .title { font-size: 16px; font-weight: bold; color: #0F2557; text-align: center; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pipeline { display: flex; align-items: center; justify-content: space-between; }
+  .node { background: #FFFFFF; border: 1.5px solid #2563EB; border-radius: 6px; padding: 10px 12px; text-align: center; min-width: 110px; }
+  .node-title { font-size: 12px; font-weight: bold; color: #1E3A8A; }
+  .node-sub { font-size: 10px; color: #64748B; margin-top: 2px; }
+  .node-accent { background: #EFF6FF; border-color: #1D4ED8; }
+  .node-masked { background: #FEF3C7; border-color: #D97706; }
+  .node-masked .node-title { color: #92400E; }
+  .arrow { font-size: 18px; font-weight: bold; color: #0F2557; margin: 0 4px; }
+  .shares-container { border: 1.5px dashed #3B82F6; border-radius: 6px; padding: 8px; margin: 0 5px; background: #F0F9FF; }
+  .shares-label { font-size: 10px; font-weight: bold; color: #1D4ED8; text-align: center; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="title">First-Order Boolean Masked AES-128 Datapath Architecture</div>
+  <div class="pipeline">
+    <div class="node">
+      <div class="node-title">128-bit Input</div>
+      <div class="node-sub">Plaintext P & Key K</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="node node-accent">
+      <div class="node-title">Mask Injection</div>
+      <div class="node-sub">PRNG Mask M<br>S' = P &oplus; M</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="shares-container">
+      <div class="shares-label">10-Round Dual-Share Iterative Pipeline</div>
+      <div style="display: flex; gap: 8px;">
+        <div class="node">
+          <div class="node-title">AddRoundKey</div>
+          <div class="node-sub">Dynamic Key Exp</div>
+        </div>
+        <div class="node node-masked">
+          <div class="node-title">Masked S-Box</div>
+          <div class="node-sub">Dynamic Refresh</div>
+        </div>
+        <div class="node">
+          <div class="node-title">ShiftRows</div>
+          <div class="node-sub">Dual-Share Perm</div>
+        </div>
+        <div class="node">
+          <div class="node-title">MixColumns</div>
+          <div class="node-sub">xtime GF(2&sup8;)</div>
+        </div>
+      </div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="node node-accent">
+      <div class="node-title">Unmasking</div>
+      <div class="node-sub">Round 10 Combine<br>C = S' &oplus; M</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="node">
+      <div class="node-title">Ciphertext C</div>
+      <div class="node-sub">100% NIST Match</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

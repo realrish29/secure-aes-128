@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: 'Consolas', 'Courier New', monospace; background: #1E1E1E; color: #D4D4D4; margin: 0; padding: 15px; border-radius: 6px; }
+  .kw { color: #569CD6; font-weight: bold; }
+  .mod { color: #4EC9B0; }
+  .com { color: #6A9955; font-style: italic; }
+  .sig { color: #9CDCFE; }
+  .num { color: #B5CEA8; }
+  .str { color: #CE9178; }
+  .header { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: bold; color: #61AFEF; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+  pre { margin: 0; font-size: 11px; line-height: 1.35; }
+</style>
+</head>
+<body>
+<div class="header">Source: rtl/aes_128_masked_core.v (Synthesizable Two-Share Verilog Module)</div>
+<pre>
+<span class="kw">module</span> <span class="mod">aes_128_masked_core</span> (
+    <span class="kw">input</span>  <span class="kw">wire</span>         <span class="sig">clk</span>, <span class="sig">rst</span>, <span class="sig">start</span>,
+    <span class="kw">input</span>  <span class="kw">wire</span> [<span class="num">127</span>:<span class="num">0</span>] <span class="sig">plaintext</span>,  <span class="com">// 128-bit Sensitive Plaintext</span>
+    <span class="kw">input</span>  <span class="kw">wire</span> [<span class="num">127</span>:<span class="num">0</span>] <span class="sig">key</span>,        <span class="com">// 128-bit Cipher Key</span>
+    <span class="kw">input</span>  <span class="kw">wire</span> [<span class="num">127</span>:<span class="num">0</span>] <span class="sig">mask_in</span>,    <span class="com">// Random Mask Share M</span>
+    <span class="kw">output</span> <span class="kw">reg</span>  [<span class="num">127</span>:<span class="num">0</span>] <span class="sig">ciphertext</span>, <span class="com">// NIST Compliant Output</span>
+    <span class="kw">output</span> <span class="kw">reg</span>          <span class="sig">done</span>
+);
+  <span class="com">// Two-Share State Registers (Split Datapath)</span>
+  <span class="kw">reg</span> [<span class="num">127</span>:<span class="num">0</span>] <span class="sig">state_share1</span>; <span class="com">// Masked State: S' = P ^ M</span>
+  <span class="kw">reg</span> [<span class="num">127</span>:<span class="num">0</span>] <span class="sig">state_share2</span>; <span class="com">// Mask State:   M</span>
+
+  <span class="com">// Protected Non-Linear SubBytes with Mask Refresh</span>
+  <span class="mod">masked_sub_bytes</span> u_msub (
+      .<span class="sig">in_share1</span>(<span class="sig">state_share1</span>), .<span class="sig">in_share2</span>(<span class="sig">state_share2</span>),
+      .<span class="sig">out_share1</span>(<span class="sig">sbox_share1</span>), .<span class="sig">out_share2</span>(<span class="sig">sbox_share2</span>)
+  );
+  <span class="com">// Round 10: Recombination C = state_share1 ^ state_share2</span>
+<span class="kw">endmodule</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #ffffff; margin: 0; padding: 20px; }
+  .box { border: 2px solid #0F2557; border-radius: 8px; background: #F8FAFC; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+  .title { font-size: 16px; font-weight: bold; color: #0F2557; text-align: center; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .flow { display: flex; align-items: center; justify-content: space-between; }
+  .step { background: #FFFFFF; border: 1.5px solid #0F2557; border-radius: 6px; padding: 10px 14px; text-align: center; flex: 1; margin: 0 4px; }
+  .step-num { font-size: 11px; font-weight: bold; color: #2563EB; text-transform: uppercase; }
+  .step-name { font-size: 13px; font-weight: bold; color: #0F2557; margin: 3px 0; }
+  .step-desc { font-size: 10px; color: #475569; }
+  .arrow { font-size: 20px; font-weight: bold; color: #0F2557; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="title">Four-Stage EDA Engineering Design & Verification Flowchart</div>
+  <div class="flow">
+    <div class="step">
+      <div class="step-num">Stage 1</div>
+      <div class="step-name">Baseline RTL Modeling</div>
+      <div class="step-desc">Modular Verilog (aes_128_core.v)<br>NIST FIPS 197 Reference Sim</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="step" style="border-color: #D97706; background: #FEF3C7;">
+      <div class="step-num" style="color: #B45309;">Stage 2</div>
+      <div class="step-name" style="color: #92400E;">Masked Architecture</div>
+      <div class="step-desc">First-Order Boolean Sharing<br>Masked S-Box & Dynamic Refresh</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="step">
+      <div class="step-num">Stage 3</div>
+      <div class="step-name">Vivado Logic Synthesis</div>
+      <div class="step-desc">Target: Artix-7 (xc7a35t) @ 100MHz<br>Extract LUTs, Registers, Slack</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="step" style="border-color: #059669; background: #ECFDF5;">
+      <div class="step-num" style="color: #047857;">Stage 4</div>
+      <div class="step-name" style="color: #065F46;">Multi-Mode Verification</div>
+      <div class="step-desc">Behavioral, Netlist & Timing Waveforms<br>TVLA & Security Assessment</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
